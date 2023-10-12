@@ -29,7 +29,6 @@ public class RecruitmentController {
          } else {
              httpServletResponse.setStatus(HttpServletResponse.SC_OK);
          }
-
     }
 
 }

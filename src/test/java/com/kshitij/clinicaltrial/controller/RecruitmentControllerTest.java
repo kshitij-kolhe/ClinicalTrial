@@ -51,7 +51,7 @@ class RecruitmentControllerTest {
                 .registerModule(new JavaTimeModule())
                 .writeValueAsString(generator.nextObject(PatientInfo.class));
 
-        RequestBuilder request = MockMvcRequestBuilders.post("/recruit")
+        final RequestBuilder request = MockMvcRequestBuilders.post("/recruit")
                 .contentType(MediaType.APPLICATION_JSON_VALUE)
                 .accept(MediaType.APPLICATION_JSON_VALUE)
                 .content(requestBody);
