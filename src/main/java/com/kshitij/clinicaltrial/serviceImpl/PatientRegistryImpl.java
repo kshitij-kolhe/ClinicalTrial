@@ -2,7 +2,6 @@ package com.kshitij.clinicaltrial.serviceImpl;
 
 import com.kshitij.clinicaltrial.model.Patient;
 import com.kshitij.clinicaltrial.service.PatientRegistry;
-import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
