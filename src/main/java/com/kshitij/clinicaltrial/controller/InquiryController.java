@@ -13,7 +13,7 @@ import java.util.List;
 @RestController
 public class InquiryController {
 
-    private PatientRegistry patientRegistry;
+    private final PatientRegistry patientRegistry;
 
     @Autowired
     public InquiryController(final PatientRegistry patientRegistry) {

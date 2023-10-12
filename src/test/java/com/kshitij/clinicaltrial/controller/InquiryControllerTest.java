@@ -62,7 +62,7 @@ class InquiryControllerTest {
 
         final MvcResult mvcResult = mockMvc.perform(request).andReturn();
 
-        final ArrayList<Patient> patients = deserializer.readValue(mvcResult.getResponse().getContentAsString(), new TypeReference<ArrayList<Patient>>() {});
+        final ArrayList<Patient> patients = deserializer.readValue(mvcResult.getResponse().getContentAsString(), new TypeReference<>() {});
 
         Assertions.assertEquals(size, patients.size());
         Assertions.assertEquals(200, mvcResult.getResponse().getStatus());
