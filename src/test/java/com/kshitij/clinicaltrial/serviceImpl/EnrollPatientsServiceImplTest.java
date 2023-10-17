@@ -3,7 +3,7 @@ package com.kshitij.clinicaltrial.serviceImpl;
 import com.kshitij.clinicaltrial.model.Gender;
 import com.kshitij.clinicaltrial.model.Patient;
 import com.kshitij.clinicaltrial.model.PatientInfo;
-import com.kshitij.clinicaltrial.service.PatientRegistry;
+import com.kshitij.clinicaltrial.service.PatientRegistryService;
 import org.jeasy.random.EasyRandom;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
@@ -27,13 +27,13 @@ import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
-class EnrollPatientsImplTest {
+class EnrollPatientsServiceImplTest {
 
     @Mock
-    private PatientRegistry patientRegistry;
+    private PatientRegistryService patientRegistryService;
 
     @InjectMocks
-    private EnrollPatientsImpl enrollPatients;
+    private EnrollPatientsServiceImpl enrollPatients;
 
 
     @BeforeEach
@@ -46,11 +46,11 @@ class EnrollPatientsImplTest {
     @DisplayName("enroll patients for clinical trial")
     void testEnrollForClinicalTrial_whenPatientInfoProvided_thenEnrollPatient(final PatientInfo patientInfo) {
 
-        doNothing().when(patientRegistry).addPatientToRegistry(any(Patient.class));
+        doNothing().when(patientRegistryService).addPatientToRegistry(any(Patient.class));
 
         final boolean created = enrollPatients.enrollForClinicalTrial(patientInfo);
 
-        verify(patientRegistry, times(1)).addPatientToRegistry(any(Patient.class));
+        verify(patientRegistryService, times(1)).addPatientToRegistry(any(Patient.class));
         Assertions.assertTrue(created);
     }
 
@@ -69,8 +69,8 @@ class EnrollPatientsImplTest {
 
         final List<Patient> patients = new ArrayList<>();
 
-        doNothing().when(patientRegistry).addPatientToRegistry(any(Patient.class));
-        when(patientRegistry.getAllPatients()).thenReturn(patients);
+        doNothing().when(patientRegistryService).addPatientToRegistry(any(Patient.class));
+        when(patientRegistryService.getAllPatients()).thenReturn(patients);
 
         enrollPatients.enrollForClinicalTrial(patientInfo);
 
@@ -78,7 +78,7 @@ class EnrollPatientsImplTest {
 
         final boolean created = enrollPatients.enrollForClinicalTrial(patientInfo);
 
-        verify(patientRegistry, times(1)).addPatientToRegistry(any(Patient.class));
+        verify(patientRegistryService, times(1)).addPatientToRegistry(any(Patient.class));
 
         Assertions.assertFalse(created);
     }

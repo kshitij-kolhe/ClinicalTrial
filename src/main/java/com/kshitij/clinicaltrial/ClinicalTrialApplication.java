@@ -1,7 +1,7 @@
 package com.kshitij.clinicaltrial;
 
-import com.kshitij.clinicaltrial.service.PatientRegistry;
-import com.kshitij.clinicaltrial.serviceImpl.PatientRegistryImpl;
+import com.kshitij.clinicaltrial.service.PatientRegistryService;
+import com.kshitij.clinicaltrial.serviceImpl.PatientRegistryServiceImpl;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
@@ -10,7 +10,7 @@ public class ClinicalTrialApplication {
 
     public static void main(String[] args) {
         SpringApplication.run(ClinicalTrialApplication.class, args);
-        final PatientRegistry patientRegistry = new PatientRegistryImpl();
+        final PatientRegistryService patientRegistryService = new PatientRegistryServiceImpl();
     }
 
 }

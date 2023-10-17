@@ -3,7 +3,7 @@ package com.kshitij.clinicaltrial.controller;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 import com.kshitij.clinicaltrial.model.PatientInfo;
-import com.kshitij.clinicaltrial.service.EnrollPatients;
+import com.kshitij.clinicaltrial.service.EnrollPatientsService;
 import org.jeasy.random.EasyRandom;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Assertions;
@@ -32,7 +32,7 @@ class RecruitmentControllerTest {
     private MockMvc mockMvc;
 
     @MockBean
-    private EnrollPatients enrollPatients;
+    private EnrollPatientsService enrollPatientsService;
 
     @BeforeEach
     void setUp() {
@@ -51,16 +51,16 @@ class RecruitmentControllerTest {
                 .registerModule(new JavaTimeModule())
                 .writeValueAsString(generator.nextObject(PatientInfo.class));
 
-        final RequestBuilder request = MockMvcRequestBuilders.post("/recruit")
+        final RequestBuilder request = MockMvcRequestBuilders.post("/patient")
                 .contentType(MediaType.APPLICATION_JSON_VALUE)
                 .accept(MediaType.APPLICATION_JSON_VALUE)
                 .content(requestBody);
 
-        when(enrollPatients.enrollForClinicalTrial(any(PatientInfo.class))).thenReturn(true);
+        when(enrollPatientsService.enrollForClinicalTrial(any(PatientInfo.class))).thenReturn(true);
 
         MvcResult mvcResult = mockMvc.perform(request).andReturn();
 
-        Mockito.verify(enrollPatients, times(1)).enrollForClinicalTrial(any(PatientInfo.class));
+        Mockito.verify(enrollPatientsService, times(1)).enrollForClinicalTrial(any(PatientInfo.class));
 
         Assertions.assertEquals(201, mvcResult.getResponse().getStatus(), "a patient record should be created");
     }
@@ -74,16 +74,16 @@ class RecruitmentControllerTest {
                 .registerModule(new JavaTimeModule())
                 .writeValueAsString(generator.nextObject(PatientInfo.class));
 
-        RequestBuilder request = MockMvcRequestBuilders.post("/recruit")
+        RequestBuilder request = MockMvcRequestBuilders.post("/patient")
                 .contentType(MediaType.APPLICATION_JSON_VALUE)
                 .accept(MediaType.APPLICATION_JSON_VALUE)
                 .content(requestBody);
 
-        when(enrollPatients.enrollForClinicalTrial(any(PatientInfo.class))).thenReturn(false);
+        when(enrollPatientsService.enrollForClinicalTrial(any(PatientInfo.class))).thenReturn(false);
 
         MvcResult mvcResult = mockMvc.perform(request).andReturn();
 
-        Mockito.verify(enrollPatients, times(1)).enrollForClinicalTrial(any(PatientInfo.class));
+        Mockito.verify(enrollPatientsService, times(1)).enrollForClinicalTrial(any(PatientInfo.class));
 
         Assertions.assertEquals(200, mvcResult.getResponse().getStatus(), "a patient record should be created");
     }

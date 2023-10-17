@@ -2,19 +2,19 @@ package com.kshitij.clinicaltrial.serviceImpl;
 
 import com.kshitij.clinicaltrial.model.Patient;
 import com.kshitij.clinicaltrial.model.PatientInfo;
-import com.kshitij.clinicaltrial.service.EnrollPatients;
-import com.kshitij.clinicaltrial.service.PatientRegistry;
+import com.kshitij.clinicaltrial.service.EnrollPatientsService;
+import com.kshitij.clinicaltrial.service.PatientRegistryService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 @Service
-public class EnrollPatientsImpl implements EnrollPatients {
+public class EnrollPatientsServiceImpl implements EnrollPatientsService {
 
-    private final PatientRegistry patientRegistry;
+    private final PatientRegistryService patientRegistryService;
 
     @Autowired
-    public EnrollPatientsImpl(final PatientRegistry patientRegistry) {
-        this.patientRegistry = patientRegistry;
+    public EnrollPatientsServiceImpl(final PatientRegistryService patientRegistryService) {
+        this.patientRegistryService = patientRegistryService;
     }
 
     @Override
@@ -23,7 +23,7 @@ public class EnrollPatientsImpl implements EnrollPatients {
         if (!isDuplicate(patientInfo)) {
             final Patient patient = new Patient(patientInfo.getName(), patientInfo.getAge(), patientInfo.getGender(), patientInfo.getMedicalCondition());
 
-            patientRegistry.addPatientToRegistry(patient);
+            patientRegistryService.addPatientToRegistry(patient);
 
             return true;
         }
@@ -33,7 +33,7 @@ public class EnrollPatientsImpl implements EnrollPatients {
 
     private boolean isDuplicate(final PatientInfo patientInfo) {
 
-        for(Patient patient : patientRegistry.getAllPatients()) {
+        for(Patient patient : patientRegistryService.getAllPatients()) {
             if (patientInfo.equals(patient)) {
                 return true;
             }

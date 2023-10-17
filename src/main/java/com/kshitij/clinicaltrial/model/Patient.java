@@ -48,6 +48,10 @@ public class Patient {
         return medicalCondition;
     }
 
+    public static Integer getEnrolledPatients() {
+        return enrolledPatients;
+    }
+
     public LocalDate getEnrollDate() {
         return enrollDate;
     }

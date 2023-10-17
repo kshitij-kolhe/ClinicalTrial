@@ -1,7 +1,7 @@
 package com.kshitij.clinicaltrial.serviceImpl;
 
 import com.kshitij.clinicaltrial.model.Patient;
-import com.kshitij.clinicaltrial.service.PatientRegistry;
+import com.kshitij.clinicaltrial.service.PatientRegistryService;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -10,7 +10,7 @@ import java.util.Optional;
 
 
 @Service
-public class PatientRegistryImpl implements PatientRegistry {
+public class PatientRegistryServiceImpl implements PatientRegistryService {
 
     private static final List<Patient> patients = new ArrayList<>();
 
@@ -31,6 +31,12 @@ public class PatientRegistryImpl implements PatientRegistry {
         return patients.stream()
                 .filter(patient -> id.equals(patient.getId()))
                 .findFirst();
+    }
+
+    @Override
+    public boolean deletePatient(final Integer id) {
+
+        return patients.removeIf(patient -> patient.getId().equals(id));
     }
 
 

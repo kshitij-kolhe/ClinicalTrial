@@ -4,7 +4,7 @@ import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 import com.kshitij.clinicaltrial.model.Patient;
-import com.kshitij.clinicaltrial.service.PatientRegistry;
+import com.kshitij.clinicaltrial.service.PatientRegistryService;
 import org.jeasy.random.EasyRandom;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Assertions;
@@ -36,7 +36,7 @@ class InquiryControllerTest {
     private MockMvc mockMvc;
 
     @MockBean
-    private PatientRegistry patientRegistry;
+    private PatientRegistryService patientRegistryService;
 
     private ObjectMapper deserializer;
     private EasyRandom generator;
@@ -61,7 +61,7 @@ class InquiryControllerTest {
         final List<Patient> expectedPatients = new ArrayList<>();
         generator.objects(Patient.class, size).forEach(expectedPatients::add);
 
-        when(patientRegistry.getAllPatients()).thenReturn(expectedPatients);
+        when(patientRegistryService.getAllPatients()).thenReturn(expectedPatients);
 
         final MvcResult mvcResult = mockMvc.perform(request).andReturn();
 
@@ -82,7 +82,7 @@ class InquiryControllerTest {
 
         final Patient patient = generator.nextObject(Patient.class);
 
-        when(patientRegistry.getPatient(any(Integer.class))).thenReturn(Optional.of(patient));
+        when(patientRegistryService.getPatient(any(Integer.class))).thenReturn(Optional.of(patient));
 
         final MvcResult mvcResult = mockMvc.perform(request).andReturn();
 
@@ -97,12 +97,12 @@ class InquiryControllerTest {
     public void testGetPatient_givenInvalidPatientId_returnNoContent() throws Exception {
         final RequestBuilder request = MockMvcRequestBuilders.get("/patient/-383");
 
-        when(patientRegistry.getPatient(any(Integer.class))).thenReturn(Optional.empty());
+        when(patientRegistryService.getPatient(any(Integer.class))).thenReturn(Optional.empty());
 
         final MvcResult mvcResult = mockMvc.perform(request).andReturn();
 
         Assertions.assertEquals("", mvcResult.getResponse().getContentAsString());
-        Assertions.assertEquals(204, mvcResult.getResponse().getStatus());
+        Assertions.assertEquals(404, mvcResult.getResponse().getStatus());
     }
 
 }
